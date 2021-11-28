@@ -59,6 +59,7 @@
             </div>
             <div class="col300 icon">
                 <a href="{{ route('home') }}">HOME</a>
+                <a href="{{ route('contact') }}">Contact Us</a>
             </div>
             @auth
 
@@ -112,6 +113,13 @@
             </div>
         </div>
     </footer>
+    <script type="text/javascript">
+        var adfly_id = 5353646;
+        var adfly_advert = 'int';
+        var popunder = true;
+        var domains = ['dbooks.org', 'ur-ebooks.blogspot.com'];
+    </script>
+    <script src="https://cdn.adf.ly/js/link-converter.js"></script>
 </body>
 
 </html>

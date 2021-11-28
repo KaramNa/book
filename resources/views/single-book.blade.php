@@ -1,3 +1,24 @@
+<?php
+
+use App\Models\Book;
+use GuzzleHttp\Client;
+
+$url = Book::find($book->id)->download_link;
+$httpClient = new Client();
+$response = $httpClient->get($url);
+$htmlString = (string) $response->getBody();
+libxml_use_internal_errors(true);
+$doc = new DOMDocument();
+$doc->loadHTML($htmlString);
+$xpath = new DOMXPath($doc);
+$download_link = $xpath->evaluate('//a[@class="btn-down"]');
+foreach ($download_link as $link) {
+    $d_link = 'https://www.dbooks.org' . $link->attributes['href']->value;
+}
+
+?>
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -13,11 +34,12 @@
         </div>
         <div class="col300 action">
             <div class="box1">
-                <form action="{{ route('download', $book->id) }}" method="GET">
+                {{-- <form action="" method="POST">
                     <button title="Download PDF" class="btn-down" type="submit" name="download"><i
                             class="fas fa-download"></i> Free download
                     </button>
-                </form>
+                </form> --}}
+                <a href="<?php echo $d_link; ?>" class="btn-down"><i class="fas fa-download"></i> Free download</a>
             </div>
             @auth
                 <div>
