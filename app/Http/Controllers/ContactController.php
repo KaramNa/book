@@ -19,7 +19,7 @@ class ContactController extends Controller
             "message" => "required",
         ]);
 
-        Mail::to("eliehashesho@syriascout.org")->send(new ContactMail($details));
-        return back()->with("success", "Your message has been sent successfully, Thank You for contacting Us");
+        Mail::to("info@pdfsbooks.com")->send(new ContactMail($details));
+        return back()->with("success", "Your message has been sent successfully, Thank You for contacting us");
     }
 }

@@ -10,16 +10,24 @@ class BooksController extends Controller
     public function index()
     {
 
-        $books = Book::filter()->latest()->paginate(20);
+        $books = Book::filter(request(["search", "category"]))->latest()->paginate(20);
+        $shareComponent = \Share::currentPage()
+        ->facebook()
+        ->twitter()
+        ->linkedin()
+        ->telegram()
+        ->whatsapp()
+        ->reddit();
+
         $currentCategory = str_replace("-", " ", request("category"));
         if ($currentCategory == "")
             $currentCategory = null;
-        if (request("category"))
-            $books = Book::category()->paginate(20);
         return view("index", [
             "books" => $books,
             "categories" => Category::all(),
-            "currentCategory" => $currentCategory
+            "currentCategory" => $currentCategory,
+            "shareComponent" => $shareComponent
+
         ]);
     }
 }

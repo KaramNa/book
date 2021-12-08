@@ -12,12 +12,13 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request){
-        $request->validate([
+        $category = $request->validate([
             "category" => "required|unique:categories,name"
         ]);
-
+        $slug = str_replace(" ", "-",strtolower($category["category"]));
         Category::create([
-            "name" => $request->category
+            "name" => $request->category,
+            "slug" => $slug
         ]);
 
         return back()->with("success", "New Category has been added");

@@ -4,11 +4,14 @@
     <div class="title">
         <h1>Welcome to PDFsBooks Library</h1>
         <h2>Free download PDF books</h2>
+        <div class="soc">
+            {!! $shareComponent !!}
+        </div>
         <div class="category mt-3">
             <div x-data="{ show: false }">
-                <button class="py-2 px-5 rounded-pill border-0 bg-dark text-white" @click="show = !show"
+                <button class="py-2 px-5 rounded-pill small border-0 bg-dark text-white" @click="show = !show"
                     @click.away="show = false"><span
-                        class="me-3">{{ isset($currentCategory) ? $currentCategory : 'Categories' }}</span> <i
+                        class="me-3">{{ isset($currentCategory) ? Str::headline($currentCategory) : 'Categories' }}</span> <i
                         class="fas fa-angle-down"></i></button>
 
                 <div x-show="show"
@@ -18,8 +21,8 @@
                         class="d-block py-1 px-3 text-start">All Categories</a>
 
                     @foreach ($categories as $category)
-                        <a href="/categories/{{ $category->slug }}"
-                            class="d-block py-1 px-3 text-start {{ isset($currentCategory) && ($currentCategory === $category->slug) ? 'active' : '' }}">{{ $category->name }}</a>
+                        <a href="/?category={{ $category->slug }}&{{ http_build_query(request()->except("category")) }}"
+                            class="d-block py-1 px-3 text-start {{ isset($currentCategory) && ($currentCategory === Str::lower($category->name)) ? 'active' : '' }}">{{ Str::headline($category->name) }}</a>
                     @endforeach
                 </div>
             </div>
@@ -45,7 +48,7 @@
                         class="fas fa-frown text-danger display-4"></i></h1>
             @endif
 
-            {{ $books->links() }}
+            {{ $books->withQueryString()->links() }}
         </div>
     </div>
 @stop

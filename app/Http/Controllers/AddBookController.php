@@ -29,6 +29,7 @@ class AddBookController extends Controller
             "pages" => "required",
             "PDF_size" => "required",
             "language" => "required",
+            "download_link2" => "required",
         ]);
 
         $attributes["slug"] = strtolower(str_replace(" ", "-", $attributes["title"]));
@@ -72,7 +73,7 @@ class AddBookController extends Controller
         $attributes["category_slug"] = strtolower(str_replace(" ", "-", $attributes["category"]));
         if (isset($attributes["poster"]))
             $attributes["poster"] = "/storage/" . request()->file("poster")->store("posters", "public");
-
+        $attributes["download_link2"]= request("download_link2");
         $book->update($attributes);
 
         return back()->with("success", "Book has been updated");

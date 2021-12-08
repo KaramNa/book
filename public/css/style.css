@@ -756,6 +756,32 @@ footer .google,
     background-color: #800000;
 }
 
+
+
+#social-links ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+
+#social-links ul li a {
+    padding: 5px;
+    margin: 1px;
+    font-size: 40px;
+    color: #222;
+}
+
+#social-links ul li a span {
+    color: #3f3333;
+}
+
+#social-links ul li a span:hover {
+    color: #0984e3;
+}
+
+
 .title h2 {
     text-transform: uppercase;
     font-size: 30px;
