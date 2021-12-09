@@ -1,34 +1,10 @@
-<?php
-
-use App\Models\Book;
-use GuzzleHttp\Client;
-
-$url = Book::find($book->id)->download_link;
-if ($url) {
-        $httpClient = new Client();
-        $response = $httpClient->get($url);
-        $htmlString = (string) $response->getBody();
-        libxml_use_internal_errors(true);
-        $doc = new DOMDocument();
-        $doc->loadHTML($htmlString);
-        $xpath = new DOMXPath($doc);
-        $download_link = $xpath->evaluate('//a[@class="btn-down"]');
-        foreach ($download_link as $link) {
-            $d_link = 'https://www.dbooks.org' . $link->attributes['href']->value;
-        }
-}else {
-    $d_link = Book::find($book->id)->download_link2;
-}
-
-?>
-
 
 @extends('layouts.app')
 
-@section("share_image", "$book->poster")
-@section("book_url", request()->url())
-@section("book_desc", "$book->title")
-@section("book_title", "$book->title")
+@section('share_image', "$book->poster")
+@section('book_url', request()->url())
+@section('book_desc', "$book->title")
+@section('book_title', "$book->title")
 
 @section('content')
     {{-- <div style="width:100%;margin-bottom:10px">
@@ -48,7 +24,8 @@ if ($url) {
                             class="fas fa-download"></i> Free download
                     </button>
                 </form> --}}
-                <a href="<?php echo $d_link; ?>" class="btn-down"  target="_blank"><i class="fas fa-download"></i> Free download</a>
+                <a href="<?php echo $d_link; ?>" class="btn-down" target="_blank"><i class="fas fa-download"></i> Free
+                    download</a>
             </div>
             @auth
                 <div>
@@ -79,7 +56,7 @@ if ($url) {
         <div class="col300 center"> <img src="{{ $book->poster }}" alt="Remote Sensing of Plant Biodiversity"
                 class="img">
             <div class="soc">
-                 {!! $shareComponent !!}
+                {!! $shareComponent !!}
             </div>
         </div>
         <div class="col100 txt">

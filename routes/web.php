@@ -36,7 +36,7 @@ Route::get('/book/{slug}', [SingleBookController::class, "index"])->name("single
 // Route::get('/download/{id}', [DownloadController::class, "index"])->name("download");
 
 Route::get('/add-book', [AddBookController::class, "index"])->name("add.book")->middleware("auth");
-Route::post('/add-book', [AddBookController::class, "store"])->middleware("auth");
+Route::post('/add-book', [AddBookController::class, "store"])->name("store.or.fill.book")->middleware("auth");
 Route::get('/edit-book/{book}', [AddBookController::class, "edit"])->name("edit.book")->middleware("auth");
 Route::post('/update-book/{book}', [AddBookController::class, "update"])->name("update.book")->middleware("auth");
 Route::post('/delete-book/{book}', [AddBookController::class, "delete"])->name("delete.book")->middleware("auth");
