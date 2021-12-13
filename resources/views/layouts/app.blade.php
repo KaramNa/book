@@ -10,15 +10,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta property="fb:app_id" content="1234123121432132121">
     <meta property="og:site_name" content="pdfsbooks.com">
-    <meta property="og:title" content="Free eBooks Library">
-    <meta property="og:description" content="Free download books (PDF)">
-    <meta property="og:url" content="https://www.pdfsbooks.com/">
-    <meta property="og:image" content="https://www.pdfsbooks.com/img/pdfsbooks.png">
+    <meta property="og:title" content="@yield(" book_title", "PDFsBOOks" )">
+    <meta property="og:description" content="Free download (PDF) @yield(" book_desc")">
+    <meta property="og:url" content="@yield(" book_url", "https://pdfsbooks.com" )">
+    <meta name="thumbnail" content="@yield(" share_image", asset('images/main_photo.jpg'))">
+    <meta property="og:image" content="@yield(" share_image", asset('images/main_photo.jpg'))" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
         integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta property="og:type" content="website">
-    <link rel="canonical" href="https://www.pdfsbooks.com/">
+    <link rel="canonical" href="@yield(" book_url", "https://pdfsbooks.com" )">
     <link rel="alternate" type="application/rss+xml" title="pdfsbooks.com"
         href="https://feeds.feedburner.com/pdfsbooks">
     {{-- <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/favicon-192x192.png">
@@ -27,7 +28,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/favicon-180x180.png"> --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css?v=') . time() }}">
     <meta name="theme-color" content="#fff">
     <script src="{{ asset('js/app.js') }}"></script>
     <script defer src="https://unpkg.com/alpinejs@3.5.1/dist/cdn.min.js"></script>
@@ -41,6 +42,18 @@
         gtag('js', new Date());
         gtag('config', 'UA-192921243-1');
     </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRY9G4D4WQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-PBFEB4TVQS');
+    </script>
 </head>
 
 <body>
@@ -51,38 +64,38 @@
                         src="{{ asset('images/logo.png') }}" width="200" alt="pdfsbooks"></a>
             </div>
             <div class="col100 se">
-                <form action="{{ route('home') }}" method="get" role="search" class="d-flex"><input
-                        class="inp" name="search" autocomplete="off" placeholder="Search Books" type="search"
-                        value="{{ request('search') }}" required><button aria-label="submit" class="sbm"
-                        type="submit"><i class="fas fa-search"></i></button>
+                <form action="{{ route('home') }}" method="get" role="search" class="d-flex">
+                    @if (request('category'))
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                    @endif
+                    <input class="inp" name="search" autocomplete="off" placeholder="Search Books"
+                        type="search" value="{{ request('search') }}" required><button aria-label="submit"
+                        class="sbm" type="submit"><i class="fas fa-search"></i></button>
                 </form>
             </div>
-            <div class="col300 icon">
-                <a href="{{ route('home') }}">HOME</a>
-                <a href="{{ route('contact') }}">Contact Us</a>
+            <div class="col300 icon"><a href="javascript:nav(true)" title="Menu"><i class="fas fa-bars"></i></a>
             </div>
-            @auth
-
-                <div class="col300 icon"><a href="javascript:nav(true)" title="Menu"><i class="fas fa-bars"></i></a>
-                </div>
-            @endauth
         </div>
-        @auth
 
-            <div id="overlay" onclick="nav(false)"></div>
-            <nav>
-                <div id="menu">
-                    <a href="javascript:nav(false)" class="button-close">&times;</a>
-                    <a href="{{ route('add.category') }}" rel="home" title="pdfsbooks">Add Category</a>
-                    <a href="{{ route('add.book') }}" rel="search" title="Search Books">Add Book</a>
+        <div id="overlay" onclick="nav(false)"></div>
+        <nav>
+            <div id="menu">
+                <a href="javascript:nav(false)" class="button-close">&times;</a>
+                <a href="{{ route('home') }}">Home</a>
+                <a href="{{ route('order.book') }}">Order a book</a>
+                <a href="{{ route('contact') }}">Contact Us</a>
+                @auth
+                    <a href="{{ route('add.category') }}">Add Category</a>
+                    <a href="{{ route('add.book') }}">Add Book</a>
+                    <a href="{{ route('books.orders') }}">Books Orders</a>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button id="logout" type="submit" rel="search" title="Search Books"
                             class="border-0 bg-transparent text-white pl-32">Logout</button>
-                    </form>
-                </div>
-            </nav>
-        @endauth
+                    @endauth
+                </form>
+            </div>
+        </nav>
 
     </header>
     <script>
@@ -114,12 +127,12 @@
         </div>
     </footer>
     <script type="text/javascript">
-        var adfly_id = 5353646;
+        var adfly_id = 26088345;
         var adfly_advert = 'int';
-        var popunder = true;
-        var domains = ['dbooks.org', 'ur-ebooks.blogspot.com'];
+        var popunder = false;
+        var domains = ['dbooks.org'];
     </script>
-    <script src="https://cdn.adf.ly/js/link-converter.js"></script>
+    <script src="https://cdn.adf.ly/js/link-converter.js?v=" .time()></script>
 </body>
 
 </html>

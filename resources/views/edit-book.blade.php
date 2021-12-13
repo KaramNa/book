@@ -132,6 +132,17 @@
                             </div>
                         @enderror
                     </div>
+                    
+                     <div class="my-2">
+                        <label for="size">Download link</label>
+                        <input type="text" class="form-control" name="download_link2"
+                            value="{{ old('download_link2', $book->download_link2) }}">
+                        @error('download_link2')
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
 
                     <button type="submit" class="btn btn-primary mt-2">Update</button>
                 </form>

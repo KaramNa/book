@@ -6,12 +6,12 @@
             <div class="col-md-8">
                 <h1 class="text-dark">Contact Us</h1>
                 <form action="{{ route('contact') }}" class="mt-3 p-5 shadow-lg rounded" method="POST">
+                    @csrf
                     @if (session()->has('success'))
                         <div class="alert alert-success alert-dismissible fade show">
                             {{ session("success") }}
                         </div>
                     @endif
-                    @csrf
                     <input name="name" type="text" placeholder="Enter your name" class="form-control">
                     @error("name")
                         <div class="text-danger">

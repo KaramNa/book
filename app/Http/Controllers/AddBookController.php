@@ -28,13 +28,14 @@ class AddBookController extends Controller
             "published" => "required",
             "pages" => "required",
             "PDF_size" => "required",
-            "language" => "required",
+            "download_link2" => "required",
         ]);
 
         $attributes["slug"] = strtolower(str_replace(" ", "-", $attributes["title"]));
         $attributes["category_slug"] = strtolower(str_replace(" ", "-", $attributes["category"]));
         $attributes["author"] = "by " . $attributes["author"];
         $attributes["poster"] = "/storage/" . request()->file("poster")->store("posters", "public");
+        $attributes["PDF_size"] .= " MB";
         Book::create($attributes);
 
         return back()->with("success", "Book has been added");

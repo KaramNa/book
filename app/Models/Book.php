@@ -24,21 +24,22 @@ class Book extends Model
         "pages",
         "PDF_size",
         "language",
+        "download_link2"
     ];
 
-    public function scopeFilter($query)
+    public function scopeFilter($query, array $filters)
     {
-        if (request("search")) {
-            $query
-                ->where("title", "like", "%" . request("search") . "%")
-                ->orWhere("description", "like", "%" . request("search") . "%");
-        }
-    }
-    public function scopeCategory($query)
-    {
-        if (request("category")) {
-            $query
-                ->where("category_slug", request("category"));
-        }
+        $query->when($filters["search"] ?? false, fn ($query, $search) =>
+        $query->where(
+            fn ($query) =>
+            $query->where("title", "like", "%" . $search . "%")
+                ->orWhere("description", "like", "%" . $search . "%")
+        ));
+
+        $query->when(
+            $filters["category"] ?? false,
+            fn ($query, $category) =>
+            $query->where("category_slug", "like", "%" . $category . "%")
+        );
     }
 }
